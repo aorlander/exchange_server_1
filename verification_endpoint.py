@@ -41,7 +41,7 @@ def verify():
             print( "Algo sig verifies!" )
             
     #Check if signature is valid
-    return jsonify(result)
+    return True #jsonify(result)
 
 if __name__ == '__main__':
     app.run(port='5002')
