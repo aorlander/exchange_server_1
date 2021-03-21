@@ -43,7 +43,7 @@ def verify():
     if 'platform' in json.dumps(content):
         platform = int(request.args['platform'])
 
-    if platform="Ethereum":
+    if platform=='Ethereum':
         eth_account.Account.enable_unaudited_hdwallet_features()
         acct, mnemonic = eth_account.Account.create_with_mnemonic()
         eth_pk = acct.address
@@ -59,7 +59,7 @@ def verify():
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
             print( "Eth sig verifies!" )
 
-    if platform="Algorand":
+    if platform=='Algorand':
         payload = "Sign this!"
         algo_sk, algo_pk = algosdk.account.generate_account()
         algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
