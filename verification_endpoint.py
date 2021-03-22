@@ -12,12 +12,14 @@ app.url_map.strict_slashes = False
 def verify():
     content = request.get_json(silent=True)
 
+    dict_content = json.loads(content)
+
     #parse content
-    platform = content['payload']['platform'] 
-    message = content['payload']['message'] 
-    pk = content['payload']['pk'] 
-    sig = content['sig']
-    payload = content['payload']
+    platform = dict_content['payload']['platform'] 
+    message = dict_content['payload']['message'] 
+    pk = dict_content['payload']['pk'] 
+    sig = dict_content['sig']
+    payload = dict_content['payload']
     
     if platform=='Ethereum':
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
