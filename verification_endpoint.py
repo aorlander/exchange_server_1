@@ -25,14 +25,10 @@ def verify():
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
         if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
             response = True
-        else:
-            response = False
 
     if platform=='Algorand':
         if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             response = True
-        else:
-            response = False
             
     return jsonify(response)
 
