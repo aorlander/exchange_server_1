@@ -22,13 +22,14 @@ def verify():
     
     if platform=='Ethereum':
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-        if eth_account.Account.recover_message(eth_encoded_msg,signature=json.dumps(sig)) == pk:
+        if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
             response = True
 
     if platform=='Algorand':
         if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             response = True
-            
+    
+    response_json = json.dumps(response)
     return jsonify(response)
 
 if __name__ == '__main__':
