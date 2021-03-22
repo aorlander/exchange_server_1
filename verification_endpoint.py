@@ -32,7 +32,7 @@ def verify():
         if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
             result = True
             
-    return jsonify(content)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(port='5002')
