@@ -11,19 +11,18 @@ app.url_map.strict_slashes = False
 @app.route('/verify', methods=['GET','POST'])
 def verify():
     content = request.get_json(silent=True)
-
     dict_content = json.loads(content)
 
-    #parse content
     platform = dict_content['payload']['platform'] 
     message = dict_content['payload']['message'] 
     pk = dict_content['payload']['pk'] 
     sig = dict_content['sig']
     payload = dict_content['payload']
+
     
     if platform=='Ethereum':
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-        if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
+        if eth_account.Account.recover_message(eth_encoded_msg,signature=json.dumps(sig)) == pk:
             response = True
 
     if platform=='Algorand':
