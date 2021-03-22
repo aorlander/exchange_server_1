@@ -30,7 +30,7 @@ def verify():
             response = True
     
     response_json = json.dumps(response)
-    return jsonify(response)
+    return jsonify(response_json)
 
 if __name__ == '__main__':
     app.run(port='5002')
