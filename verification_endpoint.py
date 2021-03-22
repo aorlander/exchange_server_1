@@ -11,27 +11,21 @@ app.url_map.strict_slashes = False
 @app.route('/verify', methods=['GET','POST'])
 def verify():
     content = request.get_json(silent=True)
+
+    #parse content
     platform = content['payload']['platform'] 
     message = content['payload']['message'] 
     pk = content['payload']['pk'] 
-    signature = content['sig']
+    sig = content['sig']
     payload = content['payload']
-
+    
     if platform=='Ethereum':
-        eth_account.Account.enable_unaudited_hdwallet_features()
-        acct, mnemonic = eth_account.Account.create_with_mnemonic()
-        eth_pk = acct.address
-        eth_sk = acct.key
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-        eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,eth_sk)
-        if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == eth_pk:
+        if eth_account.Account.recover_message(eth_encoded_msg,sig.signature.hex()) == pk:
             response = True
 
     if platform=='Algorand':
-        payload = content['payload']
-        algo_sk, algo_pk = algosdk.account.generate_account()
-        algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),algo_sk)
-        if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,algo_pk):
+        if algosdk.util.verify_bytes(payload.encode('utf-8'),sig.encode('utf-8'),pk):
             response = True
             
     return jsonify(response)
