@@ -12,8 +12,10 @@ app.url_map.strict_slashes = False
 def verify():
     content = request.get_json(silent=True)
     platform = content['payload']['platform'] 
+    message = content['payload']['message'] 
+    pk = content['payload']['pk'] 
+    signature = content['sig']
     payload = content['payload']
-    print(platform)
 
     if platform=='Ethereum':
         eth_account.Account.enable_unaudited_hdwallet_features()
