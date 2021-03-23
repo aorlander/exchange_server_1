@@ -24,8 +24,7 @@ def verify():
             response = True
 
     if platform=='Algorand':
-        payload_str = json.dumps(payload)
-        if algosdk.util.verify_bytes(payload_str.encode('utf-8'),sig,pk):
+        if algosdk.util.verify_bytes(payload,sig,pk):
             response = True
 
     return jsonify(response)
