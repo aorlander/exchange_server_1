@@ -15,7 +15,7 @@ def verify():
     message = content['payload']['message'] 
     pk = content['payload']['pk'] 
     sig = content['sig']
-    payload = content['payload']
+    payload = json.dumps(content['payload'])
     response = False
     
     if platform=='Ethereum':
@@ -24,7 +24,7 @@ def verify():
             response = True
 
     if platform=='Algorand':
-        if algosdk.util.verify_bytes(payload,sig,pk):
+        if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             response = True
 
     return jsonify(response)
